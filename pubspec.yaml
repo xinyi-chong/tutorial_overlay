@@ -1,0 +1,22 @@
+name: tutorial_overlay
+description: "A new Flutter package project for creating step-by-step tutorials with overlays."
+version: 1.0.0
+homepage: https://github.com/xinyi-chong/tutorial_overlay.git
+
+environment:
+  sdk: ^3.7.0
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+publish_to: 'https://pub.dev'
+exclude:
+  - test/
+  - example/
