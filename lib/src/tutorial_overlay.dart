@@ -160,7 +160,6 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
       showAbove = spaceAbove > spaceBelow;
     }
 
-
     return OverlayEntry(
       builder: (BuildContext context) {
         return Stack(
@@ -240,6 +239,9 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
                   ).endTutorial(widget.tutorialId);
                 }
               },
+              child: Container(
+                color: widget.overlayColor,
+              ),
             ),
             Material(
               color: Colors.transparent,
