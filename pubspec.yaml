@@ -1,7 +1,8 @@
 name: tutorial_overlay
-description: "A new Flutter package project for creating step-by-step tutorials with overlays."
+description: "A Flutter package for creating interactive step-by-step tutorials with overlays."
 version: 1.0.0
-homepage: https://github.com/xinyi-chong/tutorial_overlay.git
+homepage: https://github.com/xinyi-chong/tutorial_overlay
+repository: https://github.com/xinyi-chong/tutorial_overlay
 
 environment:
   sdk: ^3.7.0
@@ -15,3 +16,20 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+topics:
+  - tutorial
+  - tooltip
+  - overlay
+
+screenshots:
+  - description: 'This screenshot shows the tutorial steps across pages.'
+    path: assets/screenshots/tutorial-across-pages.webm
+  - description: 'This screenshot shows a custom indicator used during the tutorial steps.'
+    path: assets/screenshots/custom-indicator.png
+  - description: 'This screenshot shows the tutorial without a target widget.'
+    path: assets/screenshots/tutorial-without-target-widget.png
+  - description: 'This video shows the back-to-page support feature, demonstrating how the tutorial handles navigating back to a previous page.'
+    path: assets/screenshots/tutorial-back-to-page.webm
+  - description: 'This video shows the tutorial update functionality, where the tutorial content updates when the language is changed.'
+    path: assets/screenshots/tutorial-update.webm
