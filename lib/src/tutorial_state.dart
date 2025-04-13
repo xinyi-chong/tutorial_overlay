@@ -3,7 +3,7 @@ import 'package:tutorial_overlay/tutorial_step.dart';
 
 class TutorialState<T> extends ChangeNotifier {
   /// A map of tutorial IDs to their corresponding list of steps.
-  final Map<T, List<TutorialStep>> _tutorials;
+  Map<T, List<TutorialStep>> _tutorials;
 
   /// A map that keeps track of the current step index for each tutorial.
   final Map<T, int> _currentSteps = {};
@@ -17,6 +17,11 @@ class TutorialState<T> extends ChangeNotifier {
   int getCurrentStep(T tutorialId) => _currentSteps[tutorialId] ?? -1;
 
   List<TutorialStep>? getSteps(T tutorialId) => _tutorials[tutorialId];
+
+  void updateTutorial(Map<T, List<TutorialStep>> newTutorials) {
+    _tutorials = newTutorials;
+    notifyListeners();
+  }
 
   void startTutorial(T tutorialId) {
     if (_tutorials.containsKey(tutorialId)) {

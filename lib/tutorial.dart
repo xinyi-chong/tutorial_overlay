@@ -5,10 +5,15 @@ import 'package:tutorial_overlay/tutorial_step.dart';
 
 /// A controller for managing tutorial steps and state in a Flutter app.
 class Tutorial<T> {
-  final Map<T, List<TutorialStep>> _tutorials;
+  Map<T, List<TutorialStep>> _tutorials;
   final TutorialState _state;
 
   Tutorial(this._tutorials) : _state = TutorialState(_tutorials);
+
+  void updateTutorial(Map<T, List<TutorialStep>> newTutorials) {
+    _tutorials = newTutorials;
+    _state.updateTutorial(newTutorials);
+  }
 
   /// Starts the tutorial with the given [tutorialId].
   void startTutorial(T tutorialId) {

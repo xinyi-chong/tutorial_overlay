@@ -99,3 +99,9 @@ class MyApp extends StatelessWidget {
 tutorial.nextStep('home', route: '/your-page', context: context); // Navigate to a new route
 tutorial.previousStep('home', backToPreviousPage: true, context: context); // Go back
 ```
+
+5. Updating Tutorial
+You can dynamically update the tutorials after initialization by using updateTutorial:
+```dart
+  tutorial.updateTutorial(newTutorial);
+```
