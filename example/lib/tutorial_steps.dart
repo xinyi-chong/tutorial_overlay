@@ -13,9 +13,7 @@ final GlobalKey settingsButtonKey = GlobalKey();
 
 enum TutorialID { home, settings }
 
-final tutorial = Tutorial<TutorialID>(
-  buildTutorials(),
-);
+final tutorial = Tutorial<TutorialID>(buildTutorials());
 
 Map<TutorialID, List<TutorialStep>> buildTutorials() {
   return {
@@ -87,7 +85,7 @@ Widget _tutorialCard({required String text, required List<Widget> buttons}) {
 }
 
 Widget _nextButton(
-    TutorialID tutorialId, {
+  TutorialID tutorialId, {
   String? route,
   bool backToPreviousPage = false,
 }) {

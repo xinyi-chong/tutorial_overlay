@@ -177,8 +177,12 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
                 highlightRect: Rect.fromLTWH(
                   targetPosition.dx - (padding?.left ?? 0),
                   targetPosition.dy - (padding?.top ?? 0),
-                  targetSize.width + (padding?.left ?? 0) + (padding?.right ?? 0),
-                  targetSize.height + (padding?.top ?? 0) + (padding?.bottom ?? 0),
+                  targetSize.width +
+                      (padding?.left ?? 0) +
+                      (padding?.right ?? 0),
+                  targetSize.height +
+                      (padding?.top ?? 0) +
+                      (padding?.bottom ?? 0),
                 ),
                 color: widget.overlayColor,
                 radius: widget.radius,
@@ -187,8 +191,12 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
             Positioned(
               top:
                   showAbove
-                      ? (targetPosition.dy - indicatorHeight - (padding?.top ?? 0))
-                      : (targetPosition.dy + (padding?.bottom ?? 0) + targetSize.height),
+                      ? (targetPosition.dy -
+                          indicatorHeight -
+                          (padding?.top ?? 0))
+                      : (targetPosition.dy +
+                          (padding?.bottom ?? 0) +
+                          targetSize.height),
               left:
                   targetPosition.dx + targetSize.width / 2 - indicatorWidth / 2,
               child: SizedBox(
@@ -204,7 +212,10 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
               top:
                   showAbove
                       ? null
-                      : targetPosition.dy + targetSize.height + (padding?.bottom ?? 0) + indicatorHeight,
+                      : targetPosition.dy +
+                          targetSize.height +
+                          (padding?.bottom ?? 0) +
+                          indicatorHeight,
               bottom:
                   showAbove
                       ? MediaQuery.sizeOf(context).height -
@@ -239,9 +250,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
                   ).endTutorial(widget.tutorialId);
                 }
               },
-              child: Container(
-                color: widget.overlayColor,
-              ),
+              child: Container(color: widget.overlayColor),
             ),
             Material(
               color: Colors.transparent,

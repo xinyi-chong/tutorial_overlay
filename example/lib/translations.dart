@@ -2,9 +2,11 @@ String currentLang = 'en';
 
 final translations = {
   'en': {
-    'counterText': "The number below updates each time you press the '+' button.",
+    'counterText':
+        "The number below updates each time you press the '+' button.",
     'counterButton': "Tap this button to increment the counter.",
-    'settingsButton': "Tap the settings icon to navigate to the Settings screen.",
+    'settingsButton':
+        "Tap the settings icon to navigate to the Settings screen.",
     'backButton': "Tap this button to return to the Home screen.",
     'helpButton': "Tap the help icon to view this tutorial again at any time.",
     'goBackSettings': "Click the Go Back button to return to the Home page.",
