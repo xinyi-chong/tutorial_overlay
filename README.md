@@ -21,7 +21,7 @@ Here are some examples showcasing the features of `tutorial_overlay`:
 
 - **Tutorial Across Pages**  
   Description: This screenshot shows the tutorial steps across pages.
-  ![Tutorial Across Pages](assets/screenshots/tutorial-across-pages.webm)
+  ![Tutorial Across Pages](assets/screenshots/tutorial-across-pages.gif)
 
 - **Custom Indicator**  
   Description: This screenshot shows a custom indicator used during the tutorial steps.  
@@ -31,13 +31,9 @@ Here are some examples showcasing the features of `tutorial_overlay`:
   Description: This screenshot shows the tutorial without a target widget.
   ![Tutorial Without Target Widget](assets/screenshots/tutorial-without-target-widget.png)
 
-- **Back-to-Page Support**  
-  Description: This video shows the back-to-page support feature, demonstrating how the tutorial handles navigating back to a previous page.  
-  ![Back-to-Page Support](assets/screenshots/tutorial-back-to-page.webm)
-
 - **Update Support**  
   Description: This video shows the tutorial update functionality, where the tutorial content updates when the language is changed.  
-  ![Update Support](assets/screenshots/tutorial-update.webm)
+  ![Update Support](assets/screenshots/tutorial-update.gif)
 
 ## Getting started
 
