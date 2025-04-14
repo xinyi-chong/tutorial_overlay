@@ -19,21 +19,39 @@ flutter run
 
 Here are some examples showcasing the features of `tutorial_overlay`:
 
-- **Tutorial Across Pages**  
-  Description: This screenshot shows the tutorial steps across pages.
-  ![Tutorial Across Pages](assets/screenshots/tutorial-across-pages.gif)
+<table>
+  <tr>
+    <th>
+      Tutorial Across Pages
+    </th>
+    <th>
+      Update Support
+    </th>
+    <th>
+      Custom Indicator
+    </th>
+    <th>
+      Tutorial Without Target Widget
+    </th>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="assets/screenshots/tutorial-across-pages.gif" width="200"/> <br/>
+      <em>Steps across multiple pages.</em>
+    </td>
+    <td align="center">
+      <img src="assets/screenshots/tutorial-update.gif" width="200"/> <br/>
+      <em>E.g. Updates on language change.</em>
+    </td>
+    <td align="center">
+      <img src="assets/screenshots/custom-indicator.png" width="200"/>
+    </td>
+    <td align="center">
+      <img src="assets/screenshots/tutorial-without-target-widget.png" width="200"/>
+    </td>
+  </tr>
+</table>
 
-- **Custom Indicator**  
-  Description: This screenshot shows a custom indicator used during the tutorial steps.  
-  ![Custom Indicator](assets/screenshots/custom-indicator.png)
-
-- **Tutorial Without Target Widget**  
-  Description: This screenshot shows the tutorial without a target widget.
-  ![Tutorial Without Target Widget](assets/screenshots/tutorial-without-target-widget.png)
-
-- **Update Support**  
-  Description: This video shows the tutorial update functionality, where the tutorial content updates when the language is changed.  
-  ![Update Support](assets/screenshots/tutorial-update.gif)
 
 ## Getting started
 
