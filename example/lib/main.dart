@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tutorial_overlay/tutorial_overlay.dart';
 
 void main() {
-  runApp(tutorial.provide(const MyApp()));
+  runApp(Tutorial.provide(tutorial: tutorial, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Tutorial Overlay Demo',
       initialRoute: '/',
       navigatorKey: navigatorKey,
       routes: {
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
                 color: Colors.white,
                 border: Border.all(color: Colors.black, width: 1),
               ),
-              child: MyHomePage(title: 'Flutter Demo Home Page'),
+              child: MyHomePage(title: 'Home Page'),
             ),
         '/settings':
             (context) => TutorialOverlay<TutorialID>(
@@ -155,7 +155,7 @@ class SettingPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Row(
           children: [
-            Text("Demo Setting Page"),
+            Text("Setting Page"),
             IconButton(
               onPressed: () => tutorial.startTutorial(TutorialID.settings),
               icon: Icon(Icons.help),
@@ -167,7 +167,7 @@ class SettingPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Demo Setting Page'),
+            const Text('Setting Page'),
             ElevatedButton(
               key: backButtonKey,
               onPressed: () => Navigator.pop(context),

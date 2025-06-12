@@ -93,7 +93,7 @@ Widget _nextButton(
     child: ElevatedButton(
       onPressed: () {
         tutorial.nextStep(
-          tutorialId,
+          tutorialId: tutorialId,
           route: route,
           backToPreviousPage: backToPreviousPage,
           context: navigatorKey.currentContext,
@@ -113,7 +113,7 @@ Widget _backButton(
     child: ElevatedButton(
       onPressed: () {
         tutorial.previousStep(
-          tutorialId,
+          tutorialId: tutorialId,
           route: route,
           backToPreviousPage: backToPreviousPage,
           context: navigatorKey.currentContext,

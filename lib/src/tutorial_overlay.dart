@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tutorial_overlay/src/tutorial_state.dart';
+import 'package:tutorial_overlay/tutorial.dart';
 import 'package:tutorial_overlay/tutorial_step.dart';
 
 class TutorialOverlay<T> extends StatefulWidget {
@@ -81,7 +81,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
   void initState() {
     super.initState();
     _kTutorialWidth = widget.width;
-    final tutorialState = Provider.of<TutorialState>(context, listen: false);
+    final tutorialState = Provider.of<Tutorial>(context, listen: false);
     tutorialState.addListener(() {
       if (mounted) {
         _updateOverlay(
@@ -95,10 +95,10 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
   void _updateOverlay(BuildContext context, int step) {
     _removeOverlay();
 
-    final tutorialState = Provider.of<TutorialState>(context, listen: false);
+    final tutorialState = Provider.of<Tutorial>(context, listen: false);
     final steps = tutorialState.getSteps(widget.tutorialId);
 
-    if (step < 0 || steps == null || step >= steps.length) return;
+    if (step < 0 || steps.isEmpty || step >= steps.length) return;
 
     final TutorialStep currentStep = steps[step];
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -167,7 +167,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
             GestureDetector(
               onTap: () {
                 if (widget.dismissOnTap) {
-                  Provider.of<TutorialState>(
+                  Provider.of<Tutorial>(
                     context,
                     listen: false,
                   ).endTutorial(widget.tutorialId);
@@ -244,7 +244,7 @@ class _TutorialOverlayState extends State<TutorialOverlay> {
             GestureDetector(
               onTap: () {
                 if (widget.dismissOnTap) {
-                  Provider.of<TutorialState>(
+                  Provider.of<Tutorial>(
                     context,
                     listen: false,
                   ).endTutorial(widget.tutorialId);
@@ -321,15 +321,13 @@ class _FocusOverlayPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Path backgroundPath =
+    final backgroundPath =
         Path()
           ..fillType = PathFillType.evenOdd
-          ..addRect(Rect.fromLTWH(0, 0, size.width, size.height));
-    final RRect focusRect = RRect.fromRectAndRadius(
-      highlightRect,
-      Radius.circular(radius),
-    );
-    backgroundPath.addRRect(focusRect);
+          ..addRect(Rect.fromLTWH(0, 0, size.width, size.height))
+          ..addRRect(
+            RRect.fromRectAndRadius(highlightRect, Radius.circular(radius)),
+          );
     canvas.drawPath(backgroundPath, Paint()..color = overlayColor);
   }
 

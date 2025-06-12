@@ -24,7 +24,7 @@ Map<String, List<TutorialStep>> buildTutorials() {
             ElevatedButton(
               onPressed: () {
                 tutorial.nextStep(
-                  'home',
+                  tutorialId: 'home',
                   route: '/settings',
                   context: navigatorKey.currentContext,
                 );
@@ -47,7 +47,7 @@ Map<String, List<TutorialStep>> buildTutorials() {
                 ElevatedButton(
                   onPressed: () {
                     tutorial.previousStep(
-                      'home',
+                      tutorialId: 'home',
                       backToPreviousPage: true,
                       context: navigatorKey.currentContext,
                     );
@@ -70,7 +70,7 @@ Map<String, List<TutorialStep>> buildTutorials() {
 }
 
 void main() {
-  runApp(tutorial.provide(const MyApp()));
+  runApp(Tutorial.provide(tutorial: tutorial, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Tutorial Overlay Demo',
       initialRoute: '/',
       navigatorKey: navigatorKey,
       routes: {
@@ -110,7 +110,7 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Row(
           children: [
-            Text('Flutter Demo Home Page'),
+            Text('Home Page'),
             IconButton(
               onPressed: () => tutorial.startTutorial('home'),
               icon: Icon(Icons.help),
@@ -143,13 +143,13 @@ class SettingPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Demo Setting Page"),
+        title: Text("Setting Page"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Demo Setting Page'),
+            const Text('Setting Page'),
             ElevatedButton(
               key: backButtonKey,
               onPressed: () => Navigator.pop(context),
