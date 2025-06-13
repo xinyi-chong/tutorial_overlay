@@ -1,15 +1,13 @@
 # tutorial_overlay
 
-tutorial_overlay is a Flutter package for building interactive, step-by-step tutorials that highlight and point to widgets across multiple screens with customizable indicators.
+`tutorial_overlay` is a Flutter package for building interactive, step-by-step tutorials that highlight and point to widgets across multiple screens with customizable indicators.
 
-## ✨ Features
-- Step-by-Step Guidance: Highlight widgets and walk users through your app.
-- Custom Tooltips: Add any widget (text, buttons, images, etc.) to explain each step.
-- Custom Indicators: Use arrows or icons to point users to the right spot.
-- Multi-Page Support: Keep the tutorial flowing across different screens.
-- Dynamic Updates: Modify tutorials on-the-fly, e.g., for language changes.
+## ✨ Key Features
+- **Cross-Screen & Multi-Step Guidance**: Guide users through your app’s features across multiple screens.
+- **Widget Highlighting**: Visually emphasize specific UI elements with customizable indicators
+- **Customizable UI**: Match tutorials to your app’s style by customizing tooltips with any widget (text, buttons, images) and indicators like arrows or shapes with your choice of colors and sizes.
 
-## 📸 Screenshots
+## 📸 Showcase
 
 Here are some examples showcasing the features of `tutorial_overlay`:
 
@@ -31,11 +29,11 @@ Here are some examples showcasing the features of `tutorial_overlay`:
   <tr>
     <td align="center">
       <img src="assets/screenshots/tutorial-across-pages.gif" width="200"/> <br/>
-      <em>Steps across multiple pages.</em>
+      <em>Guides users through multiple app screens.</em>
     </td>
     <td align="center">
       <img src="assets/screenshots/tutorial-update.gif" width="200"/> <br/>
-      <em>E.g. Updates on language change.</em>
+      <em>Updates content, e.g., for language changes.</em>
     </td>
     <td align="center">
       <img src="assets/screenshots/custom-indicator.png" width="200"/>
@@ -43,12 +41,18 @@ Here are some examples showcasing the features of `tutorial_overlay`:
     </td>
     <td align="center">
       <img src="assets/screenshots/tutorial-without-target-widget.png" width="200"/>
-      <em>Displays instructions without highlighting a widget.</em>
+      <em>Shows instructions without highlighting a widget.</em>
     </td>
   </tr>
 </table>
 
-
+### Example
+To explore a working example, clone the repository and run the demo:
+```bash
+git clone https://github.com/xinyi-chong/tutorial_overlay.git
+cd tutorial_overlay/example
+flutter run
+```
 
 ## 🚀 Getting started
 
@@ -66,20 +70,20 @@ flutter pub get
 
 Check the [pub.dev page](https://pub.dev/packages/tutorial_overlay) for the latest version.
 
-### Example
-To explore a working example, clone the repository and run the demo:
-```bash
-git clone https://github.com/xinyi-chong/tutorial_overlay.git
-cd tutorial_overlay/example
-flutter run
+### Import
+```dart
+import 'package:tutorial_overlay/tutorial_overlay.dart';
 ```
 
-## 🛠 Usage
-Follow these steps to integrate tutorial_overlay into your Flutter app.
+## 🛠 How To Use
 
-**1. Mark Widgets with GlobalKey**
+### 1. Define Tutorial Steps and Set Up Tutorial
 
-Assign a `GlobalKey` to any widget you want to highlight during the tutorial (e.g., a `Text` widget). This key uniquely identifies the widget for the tutorial to target:
+Create a `Tutorial` instance to define steps, using a unique `tutorialId` (e.g., `'home'`) to organize tutorials for different app sections (e.g., `'home'` for onboarding, `'profile'` for profile setup). You can customize individual steps with styles (e.g., `indicator`) to override defaults set in `TutorialOverlay` (next step). Wrap your app with the tutorial provider to enable tutorials.
+
+**Highlight a Widget (Optional)**
+
+If you want to highlight a specific widget during the tutorial (e.g., a button or text), assign a `GlobalKey` to it. This key uniquely identifies the widget for the tutorial to target. Skip this step for steps that don’t highlight a widget:
 
 ```dart
 final widgetToHighLightKey = GlobalKey();
@@ -90,9 +94,9 @@ Text(
 )
 ```
 
-**2. Define Tutorial Steps and Provide Tutorial**
+**Set Up Tutorial**
 
-Create a `Tutorial` instance to define steps for each tutorial. The `tutorialId` (e.g., `'home'`) is a unique identifier for each tutorial, allowing you to create multiple tutorials for different parts of your app (e.g., `'home'` for onboarding, `'profile'` for user profile setup). Wrap your app with the tutorial provider to enable tutorial functionality:
+Create a `Tutorial` with steps for each `tutorialId`. Wrap your app with `Tutorial.provide`:
 
 ```dart
 void main() {
@@ -100,6 +104,7 @@ void main() {
     'home': [ // Tutorial for the home screen
       TutorialStep(
         widgetKey: widgetToHighlightKey, // Highlights a specific widget
+        indicator: CustomArrowIndicator(), // Custom styling for this step
         child: Column(
           children: [
             const Text('Welcome to the app! This highlights a key feature.'),
@@ -124,19 +129,18 @@ void main() {
     ],
     'profile': [ // Tutorial for the profile screen
       TutorialStep(
-        widgetKey: profileButtonKey,
         child: const Text('Learn how to set up your profile here.'),
       ),
     ],
   });
 
-  runApp(tutorial.provide(const MyApp()));
+  runApp(Tutorial.provide(tutorial: tutorial, child: const MyApp()));
 }
 ```
 
-**3. Wrap Pages with TutorialOverlay**
+### 2. Wrap Pages with TutorialOverlay
 
-Wrap each page with `TutorialOverlay` and specify the `tutorialId` that matches the tutorial defined in the `Tutorial` instance:
+Wrap each page with `TutorialOverlay` and specify the `tutorialId` that matches the tutorial defined in the `Tutorial` instance. Set the required tooltip `width` and optionally define default styling (e.g., `indicator, `padding), which apply unless overridden in a `TutorialStep`:
 
 ```dart
 class MyApp extends StatelessWidget {
@@ -146,7 +150,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: TutorialOverlay<String>(
-        tutorialId: 'home',  // Matches the key in the tutorial map
+        tutorialId: 'home',  // Matches the `home` key in the tutorial map
+        // Default styling for all steps in this overlay
+        width: 300,  // required
+        dismissOnTap: false,
+        padding: EdgeInsets.all(20),
+        indicator: const DefaultCircleIndicator(),
         child: const MyHomePage(),
       ),
     );
@@ -154,20 +163,20 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-**4. Control the Tutorial**
+### 3. Control the Tutorial
 
 Use these methods to manage the tutorial flow:
 
 ```dart
-tutorial.startTutorial('home');
-tutorial.nextStep('home');
-tutorial.previousStep('home');
-tutorial.endTutorial('home');
+tutorial.startTutorial('home'); // Start the 'home' tutorial
+tutorial.nextStep('home');      // Move to the next step; ends if last step
+tutorial.previousStep('home');  // Move to the previous step
+tutorial.endTutorial('home');   // End the 'home' tutorial
 ```
 
-**5. Handle Navigation**
+#### Handle Navigation
 
-To navigate between pages during the tutorial:
+To navigate between pages during the tutorial, provide the `context` for routing:
 
 ```dart
 // Navigate to a new route
@@ -176,8 +185,7 @@ tutorial.nextStep('home', route: '/your-page', context: context);
 tutorial.previousStep('home', backToPreviousPage: true, context: context);
 ```
 
-
-**6. Update Tutorials Dynamically**
+### 4. Update Tutorials Dynamically
 
 Modify tutorials after initialization, e.g., for language changes:
 
@@ -189,7 +197,7 @@ Map<String, List<TutorialStep>> buildTutorials(String language) {
       TutorialStep(
         child: Column(
           children: [
-            Text(language == 'en' ? 'Welcome to the app!' : '欢迎使用我们的应用！'),
+            Text(language == 'en' ? 'Welcome!' : '欢迎！'),
             ElevatedButton(
               onPressed: () => tutorial.endTutorial('home'),
               child: const Text('Close'),
@@ -204,12 +212,161 @@ Map<String, List<TutorialStep>> buildTutorials(String language) {
 // Initialize and update the tutorial
 void main() {
   final tutorial = Tutorial<String>(buildTutorials('en')); // Initial tutorial in English
-  runApp(tutorial.provide(const MyApp()));
+  runApp(Tutorial.provide(tutorial: tutorial, child: const MyApp()));
 
   // Example: Update tutorial for Chinese
   tutorial.updateTutorial(buildTutorials('zh'));
 }
 ```
+
+### 5. Properties & Styling
+
+Set **default styles** in `TutorialOverlay` to apply to all steps, and **override them** in `TutorialStep` for individual steps.
+
+#### `TutorialOverlay`: Default Styling
+
+<table>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default Value</th>
+    </tr>
+    <tr>
+      <td><code>child</code></td>
+      <td><code>Widget</code></td>
+      <td>Wrap the screen that start the tutorial. Required.</td>
+      <td>None (required)</td>
+    </tr>
+    <tr>
+      <td><code>tutorialId</code></td>
+      <td><code>T</code></td>
+      <td>A unique identifier for the tutorial.</td>
+      <td>None (required)</td>
+    </tr>
+    <tr>
+      <td><code>width</code></td>
+      <td><code>double</code></td>
+      <td>Tooltip container width. Required.</td>
+      <td>None (required)</td>
+    </tr>
+    <tr>
+      <td><code>height</code></td>
+      <td><code>double?</code></td>
+      <td>Optional tooltip container height.</td>
+      <td><code>null</code></td>
+    </tr>
+    <tr>
+      <td><code>decoration</code></td>
+      <td><code>Decoration?</code></td>
+      <td>Optional tooltip decoration.</td>
+      <td><code>null</code></td>
+    </tr>
+    <tr>
+      <td><code>padding</code></td>
+      <td><code>EdgeInsetsGeometry?</code></td>
+      <td>Optional tooltip content padding.</td>
+      <td><code>null</code></td>
+    </tr>
+    <tr>
+      <td><code>dismissOnTap</code></td>
+      <td><code>bool</code></td>
+      <td>End tutorial on tap outside tooltip.</td>
+      <td><code>true</code></td>
+    </tr>
+    <tr>
+      <td><code>indicator</code></td>
+      <td><code>Widget?</code></td>
+      <td>Default indicator widget to point at the target widget.</td>
+      <td><code>null</code></td>
+    </tr>
+    <tr>
+      <td><code>indicatorHeight</code></td>
+      <td><code>double?</code></td>
+      <td>Default indicator height.</td>
+      <td><code>null</code></td>
+    </tr>
+    <tr>
+      <td><code>indicatorWidth</code></td>
+      <td><code>double?</code></td>
+      <td>Default indicator width.</td>
+      <td><code>null</code></td>
+    </tr>
+    <tr>
+      <td><code>overlayColor</code></td>
+      <td><code>Color</code></td>
+      <td>Overlay color outside the target widget.</td>
+      <td><code>Colors.black54</code></td>
+    </tr>
+    <tr>
+      <td><code>radius</code></td>
+      <td><code>double</code></td>
+      <td>Corner radius of the highlight area around the target widget.</td>
+      <td><code>4</code></td>
+    </tr>
+    <tr>
+      <td><code>focusOverlayPadding</code></td>
+      <td><code>EdgeInsets?</code></td>
+      <td>Padding for the highlight area around the target widget.</td>
+      <td><code>null</code></td>
+    </tr>
+  </table>
+
+#### `TutorialStep`: Custom Styling for Individual Steps
+
+<table>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default Value</th>
+    </tr>
+    <tr>
+      <td><code>child</code></td>
+      <td><code>Widget</code></td>
+      <td>Tooltip content. Required.</td>
+      <td>None (required)</td>
+    </tr>
+    <tr>
+      <td><code>widgetKey</code></td>
+      <td><code>GlobalKey?</code></td>
+      <td>Key of the widget to highlight.</td>
+      <td>None (required)</td>
+    </tr>
+    <tr>
+      <td><code>showAbove</code></td>
+      <td><code>Decoration?</code></td>
+      <td>Show tooltip above (true) or belor (false) the target. Auto determine if null.</td>
+      <td><code>null</code></td>
+    </tr>
+    <tr>
+      <td><code>indicator</code></td>
+      <td><code>Widget?</code></td>
+      <td>Override <code>TutorialOverlay</code>'s <code>indicator</code>.</td>
+      <td><code>null</code></td>
+    </tr>
+    <tr>
+      <td><code>indicatorHeight</code></td>
+      <td><code>double?</code></td>
+      <td>Override <code>TutorialOverlay</code>'s <code>indicatorHeight</code>.</td>
+      <td><code>null</code></td>
+    </tr>
+    <tr>
+      <td><code>indicatorWidth</code></td>
+      <td><code>double?</code></td>
+      <td>Override <code>TutorialOverlay</code>'s <code>indicatorWidth</code>.</td>
+      <td><code>null</code></td>
+    </tr>
+    <tr>
+      <td><code>focusOverlayPadding</code></td>
+      <td><code>EdgeInsets?</code></td>
+      <td>Padding for the highlight area around the target widget.</td>
+      <td><code>null</code></td>
+    </tr>
+  </table>
+
+For a complete list of all classes' properties and methods, refer to the [API documentation](https://pub.dev/documentation/tutorial_overlay/latest/tutorial_overlay/) on pub.dev.
+
 
 # 📋 Additional Notes
 - Ensure `GlobalKey` is unique for each widget to avoid conflicts.
@@ -217,4 +374,14 @@ void main() {
 - Customize indicators and tooltips by passing widgets to `TutorialStep`.
 - Use distinct `tutorialId` values (e.g., `'home'`, `'profile'`) to manage multiple tutorials within the same app.
   
-For more details, refer to the example folder in the repository.
+For more details, refer to the [example folder](https://github.com/xinyi-chong/tutorial_overlay/tree/main/example) in the repository.
+
+### Troubleshooting
+- **Tutorial not showing**: Ensure `tutorialId` matches between `Tutorial` and `TutorialOverlay`.
+- **Widget not highlighted**: Verify the `GlobalKey` is attached to a rendered widget.
+- **Navigation errors**: Confirm the `context` is from the correct navigator.
+
+## Get Involved
+- ⭐ Star the [GitHub repo](https://github.com/xinyi-chong/tutorial_overlay) to show support.
+- 📢 Share your use cases in the [Discussions](https://github.com/xinyi-chong/tutorial_overlay/discussions).
+- 🐛 Report bugs or request features via [Issues](https://github.com/xinyi-chong/tutorial_overlay/issues).
