@@ -3,53 +3,93 @@ import 'package:provider/provider.dart';
 import 'package:tutorial_overlay/tutorial.dart';
 import 'package:tutorial_overlay/tutorial_step.dart';
 
+/// A widget that wraps the initial screen to display tutorial tooltips and highlight widgets.
+///
+/// The [TutorialOverlay] works with a [Tutorial] controller to render tooltips and
+/// indicators (e.g., arrows, circles) for a tutorial identified by [tutorialId].
+/// Wrap the initial screen of a tutorial with [TutorialOverlay] to manage its steps.
+///
+/// Example:
+/// ```dart
+/// TutorialOverlay<String>(
+///   tutorialId: 'home',
+///   width: 320,
+///   padding: const EdgeInsets.all(20),
+///   child: const MyHomePage(),
+/// )
+/// ```
 class TutorialOverlay<T> extends StatefulWidget {
-  /// The content displayed in the tutorial tooltip.
+  /// The screen content to display under the tutorial overlay.
+  ///
+  /// This required widget represents the main UI of the screen (e.g., a [Scaffold])
+  /// where the tutorial starts. It typically contains widgets with [GlobalKey]s for
+  targeting. For cross-screen tutorials with the same [tutorialId], widgets on other screens
+  /// can be targeted without wrapping them in [TutorialOverlay].
   final Widget child;
 
-  /// A unique identifier for the tutorial sequence.
+  /// The unique identifier for the tutorial sequence.
   ///
-  /// Each tutorial in the app should have its own `tutorialId` to distinguish
-  /// its steps and progress tracking. This ID links the overlay and control
-  /// functions (like `nextStep` and `endTutorial`) to the correct list of
-  /// tutorial steps managed by `TutorialState`.
+  /// This required ID links the overlay to a specific tutorial managed by
+  /// the [Tutorial] controller. Use the same ID for cross-screen tutorials
+  /// a single overlay, or different IDs for separate tutorials per screen.
   final T tutorialId;
 
   /// The width of the tooltip container.
+  ///
+  /// This required value sets the width of the tooltip displayed for each tutorial
+  /// step, ensuring consistent sizing.
   final double width;
 
-  /// Optional height of the tooltip container.
+  /// The optional height of the tooltip container.
+  ///
+  /// If null, the tooltip height is determined by its content.
   final double? height;
 
-  /// Optional decoration for the tooltip container.
+  /// The optional decoration for the tooltip container.
+  ///
+  /// Use to customize the tooltip’s appearance, such as background color or border.
   final Decoration? decoration;
 
-  /// Optional padding for the tooltip content.
+  /// The optional padding for the tooltip content.
+  ///
+  /// Adds padding inside the tooltip container to space its content.
   final EdgeInsetsGeometry? padding;
 
-  /// Whether the tutorial should end when tapping outside the tooltip.
+  /// Whether the tutorial ends when tapping outside the tooltip.
   ///
-  /// Defaults to `true`.
+  /// If true (default), tapping the overlay outside the tooltip calls
+  /// [Tutorial.endTutorial] to end the tutorial.
   final bool dismissOnTap;
-
-  /// An optional default indicator widget (e.g., an arrow) to point at the target widget.
+  
+  /// The default indicator widget to point at the target widget.
   ///
-  /// This will be used for all tutorial steps unless a step provides its own [indicator].
+  /// This optional widget (e.g., an arrow) is used for steps unless
+  /// overridden by a [TutorialStep]’s [indicator] property.
   final Widget? indicator;
 
-  /// The default height for the [indicator], used if not specified per step.
+  /// The default height for the [indicator].
+  ///
+  /// Used if not specified in a [TutorialStep].
   final double? indicatorHeight;
 
-  /// The default width for the [indicator], used if not specified per step.
+  /// The default width for the [indicator].
+  ///
+  /// Used if not specified in a [TutorialStep].
   final double? indicatorWidth;
 
-  /// The color of the overlay, which will cover the area outside the target widget.
+  /// The color of the overlay covering the area outside the target widget.
+  ///
+  /// Defaults to [Colors.black54] for a semi-transparent dark overlay.
   final Color overlayColor;
 
-  /// The radius of the focused area (the target widget).
+  /// The corner radius of the highlighted area around the target widget.
+  ///
+  /// Defaults to 4 for slightly rounded corners.
   final double radius;
 
-  /// Padding for the highlight area around the target widget.
+  /// The padding for the highlight area around the target widget.
+  ///
+  /// Adds space around the highlighted widget to expand the focus area.
   final EdgeInsets? focusOverlayPadding;
 
   const TutorialOverlay({
