@@ -7,6 +7,14 @@
 - **Widget Highlighting**: Visually emphasize specific UI elements with customizable indicators
 - **Customizable UI**: Match tutorials to your app’s style by customizing tooltips with any widget (text, buttons, images) and indicators like arrows or shapes with your choice of colors and sizes.
 
+## 🎮 Live Demo
+Explore the interactive example:
+```bash
+git clone https://github.com/xinyi-chong/tutorial_overlay.git
+cd tutorial_overlay/example
+flutter run
+```
+
 ## 📸 Showcase
 
 Here are some examples showcasing the features of `tutorial_overlay`:
@@ -46,29 +54,25 @@ Here are some examples showcasing the features of `tutorial_overlay`:
   </tr>
 </table>
 
-### Example
-To explore a working example, clone the repository and run the demo:
-```bash
-git clone https://github.com/xinyi-chong/tutorial_overlay.git
-cd tutorial_overlay/example
-flutter run
-```
-
 ## 🚀 Getting started
 
 ### Installation
-Add `tutorial_overlay` to your `pubspec.yaml`:
+
+[![Pub Version](https://img.shields.io/pub/v/tutorial_overlay.svg)](https://pub.dev/packages/tutorial_overlay)
+
+Add `tutorial_overlay` to your `pubspec.yaml` and fetch the package:
 ```yaml
 dependencies:
     tutorial_overlay: ^<latest_version>
 ```
-
-Run the following command to fetch the package:
 ```bash
 flutter pub get
 ```
 
-Check the [pub.dev page](https://pub.dev/packages/tutorial_overlay) for the latest version.
+Or install directly:
+```bash
+flutter pub add tutorial_overlay
+```
 
 ### Import
 ```dart
@@ -77,7 +81,7 @@ import 'package:tutorial_overlay/tutorial_overlay.dart';
 
 ## 🛠 How To Use
 
-### 1. Define Tutorial Steps and Set Up Tutorial
+### 1. Set Up Tutorial
 
 Create a `Tutorial` instance to define steps, using a unique `tutorialId` (e.g., `'home'`) to organize tutorials for different app sections (e.g., `'home'` for onboarding, `'profile'` for profile setup). You can customize individual steps with styles (e.g., `indicator`) to override defaults set in `TutorialOverlay` (next step). Wrap your app with the tutorial provider to enable tutorials.
 
@@ -86,7 +90,7 @@ Create a `Tutorial` instance to define steps, using a unique `tutorialId` (e.g.,
 If you want to highlight a specific widget during the tutorial (e.g., a button or text), assign a `GlobalKey` to it. This key uniquely identifies the widget for the tutorial to target. Skip this step for steps that don’t highlight a widget:
 
 ```dart
-final widgetToHighLightKey = GlobalKey();
+final widgetToHighlightKey = GlobalKey();
 
 Text(
     key: widgetToHighlightKey,
@@ -104,7 +108,6 @@ void main() {
     'home': [ // Tutorial for the home screen
       TutorialStep(
         widgetKey: widgetToHighlightKey, // Highlights a specific widget
-        indicator: CustomArrowIndicator(), // Custom styling for this step
         child: Column(
           children: [
             const Text('Welcome to the app! This highlights a key feature.'),
@@ -129,7 +132,15 @@ void main() {
     ],
     'profile': [ // Tutorial for the profile screen
       TutorialStep(
-        child: const Text('Learn how to set up your profile here.'),
+        child: Column(
+          children: [
+            Text('Set up your profile.'),
+            ElevatedButton(
+              onPressed: () => tutorial.endTutorial('profile'),
+              child: Text('Close'),
+            ),
+          ],
+        ),
       ),
     ],
   });
@@ -152,10 +163,12 @@ class MyApp extends StatelessWidget {
       home: TutorialOverlay<String>(
         tutorialId: 'home',  // Matches the `home` key in the tutorial map
         // Default styling for all steps in this overlay
-        width: 300,  // required
+        width: 320,  // Required
         dismissOnTap: false,
         padding: EdgeInsets.all(20),
-        indicator: const DefaultCircleIndicator(),
+        indicator: Icon(Icons.star, size: 24),  // Default indicator
+        indicatorHeight: 24, // Required with indicator for tooltip positioning
+        indicatorWidth: 24,  // Required with indicator for tooltip positioning
         child: const MyHomePage(),
       ),
     );
@@ -221,7 +234,7 @@ void main() {
 
 ### 5. Properties & Styling
 
-Set **default styles** in `TutorialOverlay` to apply to all steps, and **override them** in `TutorialStep` for individual steps.
+Set **default styles** in `TutorialOverlay` to apply to all steps, and override them in `TutorialStep` for individual steps.
 
 #### `TutorialOverlay`: Default Styling
 
@@ -235,7 +248,7 @@ Set **default styles** in `TutorialOverlay` to apply to all steps, and **overrid
     <tr>
       <td><code>child</code></td>
       <td><code>Widget</code></td>
-      <td>Wrap the screen that start the tutorial. Required.</td>
+      <td>Screen content to overlay. Required.</td>
       <td>None (required)</td>
     </tr>
     <tr>
@@ -277,19 +290,19 @@ Set **default styles** in `TutorialOverlay` to apply to all steps, and **overrid
     <tr>
       <td><code>indicator</code></td>
       <td><code>Widget?</code></td>
-      <td>Default indicator widget to point at the target widget.</td>
+      <td>Default indicator widget to point at the target widget. Set <code>indicatorHeight</code> and <code>indicatorWidth</code> for tooltip positioning.</td>
       <td><code>null</code></td>
     </tr>
     <tr>
       <td><code>indicatorHeight</code></td>
       <td><code>double?</code></td>
-      <td>Default indicator height.</td>
+      <td>Default indicator height, required if <code>indicator</code> is set.</td>
       <td><code>null</code></td>
     </tr>
     <tr>
       <td><code>indicatorWidth</code></td>
       <td><code>double?</code></td>
-      <td>Default indicator width.</td>
+      <td>Default indicator width, required if <code>indicator</code> is set.</td>
       <td><code>null</code></td>
     </tr>
     <tr>
@@ -336,25 +349,25 @@ Set **default styles** in `TutorialOverlay` to apply to all steps, and **overrid
     <tr>
       <td><code>showAbove</code></td>
       <td><code>Decoration?</code></td>
-      <td>Show tooltip above (true) or belor (false) the target. Auto determine if null.</td>
+      <td>Show tooltip above (true) or below (false) the target. Auto determined if null.</td>
       <td><code>null</code></td>
     </tr>
     <tr>
       <td><code>indicator</code></td>
       <td><code>Widget?</code></td>
-      <td>Override <code>TutorialOverlay</code>'s <code>indicator</code>.</td>
+      <td>Override <code>TutorialOverlay</code>'s <code>indicator</code>. Set <code>indicatorHeight</code> and <code>indicatorWidth</code> for tooltip positioning.</td>
       <td><code>null</code></td>
     </tr>
     <tr>
       <td><code>indicatorHeight</code></td>
       <td><code>double?</code></td>
-      <td>Override <code>TutorialOverlay</code>'s <code>indicatorHeight</code>.</td>
+      <td>Override <code>TutorialOverlay</code>'s <code>indicatorHeight</code>, required if <code>indicator</code> is set.</td>
       <td><code>null</code></td>
     </tr>
     <tr>
       <td><code>indicatorWidth</code></td>
       <td><code>double?</code></td>
-      <td>Override <code>TutorialOverlay</code>'s <code>indicatorWidth</code>.</td>
+      <td>Override <code>TutorialOverlay</code>'s <code>indicatorWidth</code>, required if <code>indicator</code> is set.</td>
       <td><code>null</code></td>
     </tr>
     <tr>
@@ -368,10 +381,9 @@ Set **default styles** in `TutorialOverlay` to apply to all steps, and **overrid
 For a complete list of all classes' properties and methods, refer to the [API documentation](https://pub.dev/documentation/tutorial_overlay/latest/tutorial_overlay/) on pub.dev.
 
 
-# 📋 Additional Notes
+## 📋 Additional Notes
 - Ensure `GlobalKey` is unique for each widget to avoid conflicts.
-- Use `context` for navigation to ensure proper routing in multi-page tutorials.
-- Customize indicators and tooltips by passing widgets to `TutorialStep`.
+- Provide `context` for navigation to ensure proper routing in multi-screen tutorials.
 - Use distinct `tutorialId` values (e.g., `'home'`, `'profile'`) to manage multiple tutorials within the same app.
   
 For more details, refer to the [example folder](https://github.com/xinyi-chong/tutorial_overlay/tree/main/example) in the repository.
@@ -381,7 +393,4 @@ For more details, refer to the [example folder](https://github.com/xinyi-chong/t
 - **Widget not highlighted**: Verify the `GlobalKey` is attached to a rendered widget.
 - **Navigation errors**: Confirm the `context` is from the correct navigator.
 
-## Get Involved
-- ⭐ Star the [GitHub repo](https://github.com/xinyi-chong/tutorial_overlay) to show support.
-- 📢 Share your use cases in the [Discussions](https://github.com/xinyi-chong/tutorial_overlay/discussions).
-- 🐛 Report bugs or request features via [Issues](https://github.com/xinyi-chong/tutorial_overlay/issues).
+🐛 Report bugs or request features via [Issues](https://github.com/xinyi-chong/tutorial_overlay/issues).
