@@ -23,7 +23,7 @@ class TutorialOverlay<T> extends StatefulWidget {
   ///
   /// This required widget represents the main UI of the screen (e.g., a [Scaffold])
   /// where the tutorial starts. It typically contains widgets with [GlobalKey]s for
-  targeting. For cross-screen tutorials with the same [tutorialId], widgets on other screens
+  /// targeting. For cross-screen tutorials with the same [tutorialId], widgets on other screens
   /// can be targeted without wrapping them in [TutorialOverlay].
   final Widget child;
 
@@ -64,17 +64,20 @@ class TutorialOverlay<T> extends StatefulWidget {
   /// The default indicator widget to point at the target widget.
   ///
   /// This optional widget (e.g., an arrow) is used for steps unless
-  /// overridden by a [TutorialStep]’s [indicator] property.
+  /// overridden by a [TutorialStep]’s [indicator] property. If set, [indicatorHeight] and
+  /// [indicatorWidth] must be provided to position the tooltip correctly.
   final Widget? indicator;
 
   /// The default height for the [indicator].
   ///
-  /// Used if not specified in a [TutorialStep].
+  /// Used if not specified in a [TutorialStep]. Required when [indicator] is set
+  /// to ensure accurate tooltip positioning.
   final double? indicatorHeight;
 
   /// The default width for the [indicator].
   ///
-  /// Used if not specified in a [TutorialStep].
+  /// Used if not specified in a [TutorialStep]. Required when [indicator] is set
+  /// to ensure accurate tooltip positioning.
   final double? indicatorWidth;
 
   /// The color of the overlay covering the area outside the target widget.
