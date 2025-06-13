@@ -4,11 +4,16 @@ import 'package:tutorial_overlay/tutorial_step.dart';
 
 /// A controller for managing tutorial state and navigation.
 ///
-/// The [Tutorial] class handles the state of multiple tutorials, each identified
-/// by a unique [T] type ID (e.g., String for 'home', 'profile'). It tracks the
-/// current step, manages navigation across screens, and notifies listeners to
-/// update the UI. Use with [TutorialOverlay] to display tooltips and highlight
-/// widgets during tutorials.
+/// Handles multiple tutorials identified by type [T] (typically String enums).
+/// Works with [TutorialOverlay] to display step-by-step guides with tooltips.
+///
+/// Example:
+/// ```dart
+/// final tutorial = Tutorial<String>({
+///   'home': [TutorialStep(child: Text('Welcome!'))],
+///   'checkout': [TutorialStep(child: Text('Complete your purchase'))],
+/// });
+/// ```
 class Tutorial<T> extends ChangeNotifier {
   Map<T, List<TutorialStep>> _tutorials;
   final Map<T, int> _currentSteps = {};
@@ -18,14 +23,7 @@ class Tutorial<T> extends ChangeNotifier {
   ///
   /// Parameters:
   /// - [tutorials]: A map of tutorial IDs to their respective [TutorialStep] lists.
-  /// - [navigator]: Optional [NavigatorState] for custom navigation control.
-  ///
-  /// Example:
-  /// ```dart
-  /// final tutorial = Tutorial<String>({
-  ///   'home': [TutorialStep(child: Text('Step 1'))],
-  /// });
-  /// ```
+  /// - [navigator]: Optional [NavigatorState] for multi-screen tutorials.
   Tutorial(Map<T, List<TutorialStep>> tutorials, {NavigatorState? navigator})
     : _tutorials = Map.from(tutorials),
       _customNavigator = navigator {
@@ -35,17 +33,13 @@ class Tutorial<T> extends ChangeNotifier {
   /// Returns a list of all available tutorial IDs.
   List<T> get availableTutorials => _tutorials.keys.toList();
 
-  /// Returns the current step index for the specified [tutorialId].
-  ///
-  /// Returns -1 if the tutorial has not started, 0 for the first step, etc.
+  /// Gets current step index (-1 = not started)
   int getCurrentStep(T tutorialId) => _currentSteps[tutorialId] ??= -1;
 
-  /// Returns the list of steps for the specified [tutorialId].
-  ///
-  /// Returns an empty list if the [tutorialId] is not found.
+  /// Gets all steps for a tutorial (empty if not found)
   List<TutorialStep> getSteps(T tutorialId) => _tutorials[tutorialId] ?? [];
 
-  /// Checks if the current step is the last one for the specified [tutorialId].
+  /// Whether current step is the last one
   bool isLastStep(T tutorialId) {
     final steps = getSteps(tutorialId);
     return steps.isNotEmpty && _currentSteps[tutorialId] == steps.length - 1;
@@ -54,11 +48,6 @@ class Tutorial<T> extends ChangeNotifier {
   /// Updates the tutorials with a new map of tutorial steps.
   ///
   /// Useful for dynamic updates, such as changing languages.
-  ///
-  /// Example:
-  /// ```dart
-  /// tutorial.updateTutorial({'home': [TutorialStep(child: Text('New Step')]});
-  /// ```
   void updateTutorial(Map<T, List<TutorialStep>> newTutorials) {
     _tutorials = Map.from(newTutorials);
     notifyListeners();
@@ -71,19 +60,13 @@ class Tutorial<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Advances to the next step in the tutorial.
+  /// Advances to the next step or ends tutorial if last step.
   ///
-  /// If the current step is the last one, ends the tutorial. Optionally navigates
-  /// to a [route] or pops the current page if [backToPreviousPage] is true.
-  /// Notifies listeners to update the UI.
-  ///
-  /// Parameters:
-  /// - [tutorialId]: The ID of the tutorial to advance.
-  /// - [route]: Optional route to navigate to.
-  /// - [arguments]: Optional arguments for the route.
-  /// - [backToPreviousPage]: If true, pops the current page. Defaults to false.
-  /// - [context]: The [BuildContext] for navigation. Required if [route] or
-  ///   [backToPreviousPage] is used, unless [_customNavigator] is provided.
+  /// Optional navigation:
+  /// - [route]: Name of route to push
+  /// - [arguments]: Route arguments
+  /// - [backToPreviousPage]: Pop current route
+  /// - [context]: Required for navigation if no custom navigator provided
   void nextStep({
     required T tutorialId,
     String? route,
@@ -108,19 +91,13 @@ class Tutorial<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Goes back to the previous step in the tutorial.
+  /// Returns to previous step (if not first step)
   ///
-  /// If the current step is the first one (index 0), no action is taken.
-  /// Optionally navigates to a [route] or pops the current page if
-  /// [backToPreviousPage] is true. 
-  ///
-  /// Parameters:
-  /// - [tutorialId]: The ID of the tutorial to navigate back in.
-  /// - [route]: Optional route to navigate to.
-  /// - [arguments]: Optional arguments for the route.
-  /// - [backToPreviousPage]: If true, pops the current page. Defaults to false.
-  /// - [context]: The [BuildContext] for navigation. Required if [route] or
-  ///   [backToPreviousPage] is used, unless [_customNavigator] is provided.
+  /// Optional navigation:
+  /// - [route]: Name of route to push
+  /// - [arguments]: Route arguments
+  /// - [backToPreviousPage]: Pop current route
+  /// - [context]: Required for navigation if no custom navigator provided
   void previousStep({
     required T tutorialId,
     String? route,
@@ -182,26 +159,12 @@ class Tutorial<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Validates that the given [tutorialId] exists in [_tutorials].
-  ///
-  /// Throws [TutorialNotFoundException] if the ID is invalid.
   void _validateTutorialId(T tutorialId) {
     if (!_tutorials.containsKey(tutorialId)) {
       throw TutorialNotFoundException(tutorialId);
     }
   }
 
-  /// Handles navigation for tutorial steps.
-  ///
-  /// Pushes a new [route] with optional [arguments] or pops the current page if
-  /// [back] is true. Uses [_customNavigator] if available, otherwise uses
-  /// [Navigator.of(context)].
-  ///
-  /// Parameters:
-  /// - [route]: The route to navigate to, if any.
-  /// - [arguments]: Arguments to pass to the route.
-  /// - [back]: If true, pops the current page.
-  /// - [context]: The [BuildContext] for navigation, required if [_customNavigator] is null.
   void _handleNavigation({
     String? route,
     Object? arguments,

@@ -1,51 +1,57 @@
 import 'package:flutter/material.dart';
 
-/// Defines a single step in a tutorial, highlighting a widget with a tooltip.
-///
-/// The [widgetKey] identifies the target widget to highlight, and [child] is
-/// displayed in the tooltip.
+/// Defines a single step in a tutorial.
 class TutorialStep {
-  /// The key of the widget to highlight in the UI.
-  final GlobalKey? widgetKey;
-
-  /// The content to display in the tooltip.
+  /// The instructional content to show in the tooltip.
   final Widget child;
 
-  /// An optional indicator widget (e.g., an arrow) pointing to the target.
+  /// The key of the target widget to highlight.
   ///
-  /// If null, the default [indicator] from the `TutorialOverlay` will be used. If set, 
-  /// [indicatorHeight] and [indicatorWidth] must be provided for correct tooltip positioning.
-  final Widget? indicator;
+  /// If null, no widget is highlighted.
+  final GlobalKey? widgetKey;
 
-  /// The height of the [indicator].
-  ///
-  /// If null, the default [indicatorHeight] from the `TutorialOverlay` is used.
-  /// Required when [indicator] is set for correct tooltip positioning.
-  final double? indicatorHeight;
-
-  /// The width of the [indicator].
-  ///
-  /// If null, the default [indicatorWidth] from the `TutorialOverlay` is used.
-  /// Required when [indicator] is set for correct tooltip positioning.
-  final double? indicatorWidth;
-
-  /// Whether to show the tooltip and indicator above the target (true) or below (false).
+  /// Forces tooltip position (true = above target, false = below).
   ///
   /// If null, the position is automatically determined based on available screen space.
   final bool? showAbove;
 
+  /// Custom widget that points to the target (e.g., arrow).
+  ///
+  /// When null, falls back to [TutorialOverlay.indicator].
+  /// Requires [indicatorHeight] and [indicatorWidth] for correct positioning.
+  ///
+  /// Example:
+  /// ```dart
+  /// indicator: Icon(Icons.arrow_downward, size: 24),
+  /// indicatorHeight: 24,
+  /// indicatorWidth: 24,
+  /// ```
+  final Widget? indicator;
+
+  /// The height of the [indicator].
+  ///
+  /// When null, falls back to [TutorialOverlay.indicatorHeight].
+  /// Required if [indicator] is set.
+  final double? indicatorHeight;
+
+  /// The width of the [indicator].
+  ///
+  /// When null, falls back to [TutorialOverlay.indicatorWidth].
+  /// Required if [indicator] is set.
+  final double? indicatorWidth;
+
   /// Padding for the highlighted area around the target widget.
   ///
-  /// If null, the default [focusOverlayPadding] from the `TutorialOverlay` is used.
+  /// When null, falls back to [TutorialOverlay.focusOverlayPadding].
   final EdgeInsets? focusOverlayPadding;
 
   TutorialStep({
-    this.widgetKey,
     required this.child,
+    this.widgetKey,
+    this.showAbove,
     this.indicator,
     this.indicatorHeight,
     this.indicatorWidth,
-    this.showAbove,
     this.focusOverlayPadding,
   });
 }

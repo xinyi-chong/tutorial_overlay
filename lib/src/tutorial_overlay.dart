@@ -3,18 +3,16 @@ import 'package:provider/provider.dart';
 import 'package:tutorial_overlay/tutorial.dart';
 import 'package:tutorial_overlay/tutorial_step.dart';
 
-/// A widget that wraps the initial screen to display tutorial tooltips and highlight widgets.
+/// Wrap your initial screen with this widget to enable tutorial functionality.
 ///
-/// The [TutorialOverlay] works with a [Tutorial] controller to render tooltips and
-/// indicators (e.g., arrows, circles) for a tutorial identified by [tutorialId].
-/// Wrap the initial screen of a tutorial with [TutorialOverlay] to manage its steps.
+/// Works with [Tutorial] controller to render tooltips and indicators (e.g., arrows, circles)
+/// for a tutorial identified by [tutorialId].
 ///
 /// Example:
 /// ```dart
 /// TutorialOverlay<String>(
 ///   tutorialId: 'home',
 ///   width: 320,
-///   padding: const EdgeInsets.all(20),
 ///   child: const MyHomePage(),
 /// )
 /// ```
@@ -23,74 +21,66 @@ class TutorialOverlay<T> extends StatefulWidget {
   ///
   /// This required widget represents the main UI of the screen (e.g., a [Scaffold])
   /// where the tutorial starts. It typically contains widgets with [GlobalKey]s for
-  /// targeting. For cross-screen tutorials with the same [tutorialId], widgets on other screens
-  /// can be targeted without wrapping them in [TutorialOverlay].
+  /// targeting.
   final Widget child;
 
-  /// The unique identifier for the tutorial sequence.
+  /// Unique ID matching the tutorial in [Tutorial] controller
   ///
-  /// This required ID links the overlay to a specific tutorial managed by
-  /// the [Tutorial] controller. Use the same ID for cross-screen tutorials
-  /// a single overlay, or different IDs for separate tutorials per screen.
+  /// Use the same ID for multi-step tutorials a single overlay,
+  /// or different IDs for different tutorials.
   final T tutorialId;
 
-  /// The width of the tooltip container.
-  ///
-  /// This required value sets the width of the tooltip displayed for each tutorial
-  /// step, ensuring consistent sizing.
+  /// Width of tooltip container. (Required)
   final double width;
 
-  /// The optional height of the tooltip container.
+  /// Optional height of tooltip container.
   ///
   /// If null, the tooltip height is determined by its content.
   final double? height;
 
-  /// The optional decoration for the tooltip container.
-  ///
-  /// Use to customize the tooltip’s appearance, such as background color or border.
+  /// Optional decoration of tooltip container.
   final Decoration? decoration;
 
-  /// The optional padding for the tooltip content.
+  /// Optional padding of tooltip container.
   ///
   /// Adds padding inside the tooltip container to space its content.
   final EdgeInsetsGeometry? padding;
 
-  /// Whether the tutorial ends when tapping outside the tooltip.
-  ///
-  /// If true (default), tapping the overlay outside the tooltip calls
-  /// [Tutorial.endTutorial] to end the tutorial.
+  /// Whether the tutorial ends when tapping outside the tooltip. (default: true)
   final bool dismissOnTap;
-  
-  /// The default indicator widget to point at the target widget.
+
+  /// Default custom widget that points to the target. (e.g. arrow)
   ///
-  /// This optional widget (e.g., an arrow) is used for steps unless
-  /// overridden by a [TutorialStep]’s [indicator] property. If set, [indicatorHeight] and
-  /// [indicatorWidth] must be provided to position the tooltip correctly.
+  /// Used when [TutorialStep.indicator] isn't specified.
+  /// Requires [indicatorHeight] and [indicatorWidth] for correct positioning.
+  ///
+  /// Example:
+  /// ```dart
+  /// indicator: Icon(Icons.arrow_downward, size: 24),
+  /// indicatorHeight: 24,
+  /// indicatorWidth: 24,
+  /// ```
   final Widget? indicator;
 
-  /// The default height for the [indicator].
+  /// Default height of [indicator].
   ///
-  /// Used if not specified in a [TutorialStep]. Required when [indicator] is set
-  /// to ensure accurate tooltip positioning.
+  /// Overridden by [TutorialStep.indicatorHeight] if specified.
+  /// Required when [indicator] is set.
   final double? indicatorHeight;
 
-  /// The default width for the [indicator].
+  /// Default width of [indicator].
   ///
-  /// Used if not specified in a [TutorialStep]. Required when [indicator] is set
-  /// to ensure accurate tooltip positioning.
+  /// Overridden by [TutorialStep.indicatorWidth] if specified.
+  /// Required when [indicator] is set.
   final double? indicatorWidth;
 
-  /// The color of the overlay covering the area outside the target widget.
-  ///
-  /// Defaults to [Colors.black54] for a semi-transparent dark overlay.
+  /// Color of the overlay covering the area outside the target widget. (default: Colors.black54)
   final Color overlayColor;
 
-  /// The corner radius of the highlighted area around the target widget.
-  ///
-  /// Defaults to 4 for slightly rounded corners.
+  /// Corner radius of highlighted area around the target widget. (default: 4)
   final double radius;
 
-  /// The padding for the highlight area around the target widget.
+  /// Padding of highlight area around the target widget.
   ///
   /// Adds space around the highlighted widget to expand the focus area.
   final EdgeInsets? focusOverlayPadding;
