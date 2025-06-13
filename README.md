@@ -320,7 +320,7 @@ Set **default styles** in `TutorialOverlay` to apply to all steps, and override 
     <tr>
       <td><code>focusOverlayPadding</code></td>
       <td><code>EdgeInsets?</code></td>
-      <td>Padding for the highlight area around the target widget.</td>
+      <td>Padding for the highlighted area around the target widget.</td>
       <td><code>null</code></td>
     </tr>
   </table>
@@ -344,7 +344,7 @@ Set **default styles** in `TutorialOverlay` to apply to all steps, and override 
       <td><code>widgetKey</code></td>
       <td><code>GlobalKey?</code></td>
       <td>Key of the widget to highlight.</td>
-      <td>None (required)</td>
+      <td><code>null</code></td>
     </tr>
     <tr>
       <td><code>showAbove</code></td>
@@ -373,7 +373,7 @@ Set **default styles** in `TutorialOverlay` to apply to all steps, and override 
     <tr>
       <td><code>focusOverlayPadding</code></td>
       <td><code>EdgeInsets?</code></td>
-      <td>Padding for the highlight area around the target widget.</td>
+      <td>Padding for the highlighted area around the target widget.</td>
       <td><code>null</code></td>
     </tr>
   </table>
