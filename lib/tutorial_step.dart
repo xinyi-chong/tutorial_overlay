@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 /// Defines a single step in a tutorial, highlighting a widget with a tooltip.
 ///
 /// The [widgetKey] identifies the target widget to highlight, and [child] is
-/// displayed in the tooltip. An optional [indicator] (e.g., an arrow) can be
-/// positioned above or below the target via [showAbove].
+/// displayed in the tooltip.
 class TutorialStep {
   /// The key of the widget to highlight in the UI.
   final GlobalKey? widgetKey;
@@ -14,23 +13,28 @@ class TutorialStep {
 
   /// An optional indicator widget (e.g., an arrow) pointing to the target.
   ///
-  /// If null, the default [indicator] from the `TutorialOverlay` will be used.
+  /// If null, the default [indicator] from the `TutorialOverlay` will be used. If set, 
+  /// [indicatorHeight] and [indicatorWidth] must be provided for correct tooltip positioning.
   final Widget? indicator;
 
   /// The height of the [indicator].
   ///
   /// If null, the default [indicatorHeight] from the `TutorialOverlay` is used.
+  /// Required when [indicator] is set for correct tooltip positioning.
   final double? indicatorHeight;
 
   /// The width of the [indicator].
   ///
   /// If null, the default [indicatorWidth] from the `TutorialOverlay` is used.
+  /// Required when [indicator] is set for correct tooltip positioning.
   final double? indicatorWidth;
 
   /// Whether to show the tooltip and indicator above the target (true) or below (false).
+  ///
+  /// If null, the position is automatically determined based on available screen space.
   final bool? showAbove;
 
-  /// Padding for the highlight area around the target widget.
+  /// Padding for the highlighted area around the target widget.
   ///
   /// If null, the default [focusOverlayPadding] from the `TutorialOverlay` is used.
   final EdgeInsets? focusOverlayPadding;
