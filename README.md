@@ -254,7 +254,7 @@ Set **default styles** in `TutorialOverlay` to apply to all steps, and override 
     <tr>
       <td><code>tutorialId</code></td>
       <td><code>T</code></td>
-      <td>A unique identifier for the tutorial.</td>
+      <td>A unique identifier for the tutorial. Required.</td>
       <td>None (required)</td>
     </tr>
     <tr>
@@ -320,7 +320,7 @@ Set **default styles** in `TutorialOverlay` to apply to all steps, and override 
     <tr>
       <td><code>focusOverlayPadding</code></td>
       <td><code>EdgeInsets?</code></td>
-      <td>Padding for the highlighted area around the target widget.</td>
+      <td>Optional padding for the highlighted area around the target widget.</td>
       <td><code>null</code></td>
     </tr>
   </table>
@@ -355,25 +355,25 @@ Set **default styles** in `TutorialOverlay` to apply to all steps, and override 
     <tr>
       <td><code>indicator</code></td>
       <td><code>Widget?</code></td>
-      <td>Override <code>TutorialOverlay</code>'s <code>indicator</code>. Set <code>indicatorHeight</code> and <code>indicatorWidth</code> for tooltip positioning.</td>
+      <td>Override <code>TutorialOverlay.indicator</code>. Set <code>indicatorHeight</code> and <code>indicatorWidth</code> for tooltip positioning.</td>
       <td><code>null</code></td>
     </tr>
     <tr>
       <td><code>indicatorHeight</code></td>
       <td><code>double?</code></td>
-      <td>Override <code>TutorialOverlay</code>'s <code>indicatorHeight</code>, required if <code>indicator</code> is set.</td>
+      <td>Override <code>TutorialOverlay.indicatorHeight</code>, required if <code>indicator</code> is set.</td>
       <td><code>null</code></td>
     </tr>
     <tr>
       <td><code>indicatorWidth</code></td>
       <td><code>double?</code></td>
-      <td>Override <code>TutorialOverlay</code>'s <code>indicatorWidth</code>, required if <code>indicator</code> is set.</td>
+      <td>Override <code>TutorialOverlay.indicatorWidth</code>, required if <code>indicator</code> is set.</td>
       <td><code>null</code></td>
     </tr>
     <tr>
       <td><code>focusOverlayPadding</code></td>
       <td><code>EdgeInsets?</code></td>
-      <td>Padding for the highlighted area around the target widget.</td>
+      <td>Optional padding for the highlighted area around the target widget.</td>
       <td><code>null</code></td>
     </tr>
   </table>
