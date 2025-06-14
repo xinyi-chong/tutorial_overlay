@@ -7,13 +7,14 @@ import 'package:tutorial_overlay/tutorial_step.dart';
 /// Handles multiple tutorials identified by type [T] (typically String enums).
 /// Works with [TutorialOverlay] to display step-by-step guides with tooltips.
 ///
-/// Example:
+/// {@tool snippet}
 /// ```dart
 /// final tutorial = Tutorial<String>({
 ///   'home': [TutorialStep(child: Text('Welcome!'))],
-///   'checkout': [TutorialStep(child: Text('Complete your purchase'))],
+///   'profile': [TutorialStep(child: Text('Set up your profile.'))],
 /// });
 /// ```
+/// {@end-tool}
 class Tutorial<T> extends ChangeNotifier {
   Map<T, List<TutorialStep>> _tutorials;
   final Map<T, int> _currentSteps = {};
@@ -135,10 +136,11 @@ class Tutorial<T> extends ChangeNotifier {
   /// - [tutorial]: The [Tutorial] instance to provide.
   /// - [child]: The widget tree to wrap.
   ///
-  /// Example:
+  /// {@tool snippet}
   /// ```dart
   /// Tutorial.provide(tutorial: tutorial, child: const MyApp());
   /// ```
+  /// {@end-tool}
   static Widget provide({required Tutorial tutorial, required Widget child}) {
     return ChangeNotifierProvider.value(value: tutorial, child: child);
   }
@@ -151,8 +153,7 @@ class Tutorial<T> extends ChangeNotifier {
   /// - [tutorialIds]: Optional list of tutorial IDs to initialize. If null,
   ///   initializes all tutorials in [_tutorials].
   void initializeState({List<T>? tutorialIds}) {
-    final idsToInitialize =
-        tutorialIds == null ? _tutorials.keys.toList() : tutorialIds;
+    final idsToInitialize = tutorialIds ?? _tutorials.keys.toList();
     for (final id in idsToInitialize) {
       _currentSteps[id] = -1;
     }

@@ -99,7 +99,7 @@ class HomePage extends StatelessWidget {
               onPressed: () => tutorial.startTutorial(TutorialID.home),
               child: const Text(
                 'Click me to start tutorial!',
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16),
               ),
             ),
             const SizedBox(height: 16),

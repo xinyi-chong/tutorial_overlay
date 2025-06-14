@@ -8,7 +8,7 @@ import 'package:tutorial_overlay/tutorial_step.dart';
 /// Works with [Tutorial] controller to render tooltips and indicators (e.g., arrows, circles)
 /// for a tutorial identified by [tutorialId].
 ///
-/// Example:
+/// {@tool snippet}
 /// ```dart
 /// TutorialOverlay<String>(
 ///   tutorialId: 'home',
@@ -16,6 +16,7 @@ import 'package:tutorial_overlay/tutorial_step.dart';
 ///   child: const MyHomePage(),
 /// )
 /// ```
+/// {@end-tool}
 class TutorialOverlay<T> extends StatefulWidget {
   /// The screen content to display under the tutorial overlay.
   ///
@@ -54,12 +55,13 @@ class TutorialOverlay<T> extends StatefulWidget {
   /// Used when [TutorialStep.indicator] isn't specified.
   /// Requires [indicatorHeight] and [indicatorWidth] for correct positioning.
   ///
-  /// Example:
+  /// {@tool snippet}
   /// ```dart
   /// indicator: Icon(Icons.arrow_downward, size: 24),
   /// indicatorHeight: 24,
   /// indicatorWidth: 24,
   /// ```
+  /// {@end-tool}
   final Widget? indicator;
 
   /// Default height of [indicator].

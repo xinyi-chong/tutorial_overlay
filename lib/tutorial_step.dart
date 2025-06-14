@@ -20,12 +20,13 @@ class TutorialStep {
   /// When null, falls back to [TutorialOverlay.indicator].
   /// Requires [indicatorHeight] and [indicatorWidth] for correct positioning.
   ///
-  /// Example:
+  /// {@tool snippet}
   /// ```dart
   /// indicator: Icon(Icons.arrow_downward, size: 24),
   /// indicatorHeight: 24,
   /// indicatorWidth: 24,
   /// ```
+  /// {@end-tool}
   final Widget? indicator;
 
   /// The height of the [indicator].
