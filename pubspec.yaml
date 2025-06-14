@@ -23,10 +23,7 @@ topics:
   - tooltip
   - overlay
   - onboarding
-  - user-guide
-  - walkthrough
-  - widget-highlight
-  - interactive-tutorial
+  - guide
 
 screenshots:
   - description: 'Multi-page tutorial flow.'
